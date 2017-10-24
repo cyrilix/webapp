@@ -13,3 +13,15 @@ data "aws_ami" "ubuntu" {
 
   owners = ["099720109477"] # Canonical
 }
+
+variable "vpc_id" {
+  default = "vpc-d02679b7"
+}
+
+variable "subnet_id_1" {
+  default = "subnet-7b773e1c"
+}
+
+variable "subnet_id_2" {
+  default = "subnet-63dc4938"
+}
