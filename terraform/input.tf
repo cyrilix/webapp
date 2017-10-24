@@ -18,14 +18,12 @@ data "template_file" "webapp_userdata" {
   template = "${file("userdata.tpl")}"
 }
 
-variable "vpc_id" {
-  default = "vpc-d02679b7"
+data "terraform_remote_state" "vpc" {
+  backend = "s3"
+  config {
+    bucket = "cyrille-tfstate-formation"
+    key    = "vpc/terraform.tfstate"
+    region = "eu-west-1"
+  }
 }
 
-variable "subnet_id_1" {
-  default = "subnet-7b773e1c"
-}
-
-variable "subnet_id_2" {
-  default = "subnet-63dc4938"
-}
