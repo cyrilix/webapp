@@ -20,10 +20,10 @@ data "template_file" "webapp_userdata" {
 
 data "terraform_remote_state" "vpc" {
   backend = "s3"
+
   config {
     bucket = "cyrille-tfstate-formation"
     key    = "vpc/terraform.tfstate"
     region = "eu-west-1"
   }
 }
-

@@ -39,8 +39,9 @@ resource "aws_security_group_rule" "allow_all" {
 
 resource "aws_instance" "web" {
   ami                         = "${data.aws_ami.ubuntu.id}"
+  count                       = 2
   instance_type               = "t2.micro"
-  subnet_id                   = "${data.terraform_remote_state.vpc.subnet_id_1}"
+  subnet_id                   = "${element(data.terraform_remote_state.vpc.subnet_ids, count.index) }"
   key_name                    = "cyrille3"
   associate_public_ip_address = true
   vpc_security_group_ids      = ["${aws_security_group.sg_webapp.id}"]
