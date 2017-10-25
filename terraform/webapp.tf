@@ -51,3 +51,29 @@ resource "aws_instance" "web" {
     Name = "cyrille"
   }
 }
+
+resource "aws_elb" "web_elb" {
+  name            = "webapp-elb"
+  subnets         = ["${data.terraform_remote_state.vpc.subnet_ids}"]
+  security_groups = ["${aws_security_group.sg_webapp.id}"]
+  instances = ["${aws_instance.web.*.id}"]
+
+  listener {
+    instance_port     = 80
+    instance_protocol = "http"
+    lb_port           = 80
+    lb_protocol       = "http"
+  }
+
+  health_check {
+    healthy_threshold   = 2
+    unhealthy_threshold = 2
+    target              = "HTTP:80/"
+    interval            = 10
+    timeout             = 5
+  }
+
+  tags {
+    Name = "cyrille"
+  }
+}
